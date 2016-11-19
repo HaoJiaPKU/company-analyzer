@@ -20,75 +20,13 @@ import edu.stanford.nlp.ling.CoreLabel;
 import objects.CompanyObject;
 import utils.FileInput;
 import utils.FileOutput;
+import utils.SegmenterUtil;
 import utils.UrlUtil;
 
 public class BaiduSearch {
 	
-	public static CRFClassifier<CoreLabel> segmenter;
-	public static final String StopSigns = "[\\p{P}~$`^=|<>～｀＄＾＋＝｜＜＞￥× \\s|\t|\r|\n]+";
-	public static final String CityNameFile = FilePath.DataDir + "/city-name.txt";
-	public static final String CompanyType [] = {"有限责任公司", "股份有限公司", "有限合伙"};
-	public static ArrayList<String> cityName = new ArrayList<String> ();
 	public static final int StartNumber = 23085;
 	public static final boolean Debug = false;
-	
-	public static void loadSegmenter()
-	{	
-		String basedir = "stanford-segmenter-2015-12-09/data";
-		Properties props = new Properties();
-		props.setProperty("sighanCorporaDict", basedir);
-		//props.setProperty("NormalizationTable", "data/norm.simp.utf8");
-		//props.setProperty("normTableEncoding", "UTF-8");
-		//below is needed because CTBSegDocumentIteratorFactory accesses it
-		props.setProperty("serDictionary", basedir + "/dict-chris6.ser.gz");
-		//props.setProperty("testFile", args[0]);
-		props.setProperty("inputEncoding", "UTF-8");
-		props.setProperty("sighanPostProcessing", "true");
-
-		segmenter = new CRFClassifier<CoreLabel>(props);
-		segmenter.loadClassifierNoExceptions(basedir + "/ctb.gz", props);
-		//segmenter.classifyAndWriteAnswers(args[0]);
-		//System.out.println(segmenter.classifyToString("今天天气不错啊"));
-	}
-	
-	public static void loadCityName()
-	{
-		InputStreamReader isr;
-		try {
-			isr = new InputStreamReader(new FileInputStream(CityNameFile));
-			BufferedReader reader = new BufferedReader(isr);
-			String line = null;
-			try {
-				while((line = reader.readLine()) != null)
-					cityName.add(line.trim());
-				reader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static boolean isCompanyType(String str) {
-		for (int i = 0; i < CompanyType.length; i ++) {
-			if (CompanyType[i].contains(str)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean isCityName(String str) {
-		for (int i = 0; i < cityName.size(); i ++) {
-			if (cityName.get(i).contains(str)) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	public static int calculateSearchCompanyNum(String str, String targetStr) {
 		int ret = 0;
@@ -100,10 +38,10 @@ public class BaiduSearch {
 //				System.out.println(div.select("h3").first().text().toString() + " " + target);
 //				System.out.println(div.select("h3").first().text().toString().contains(target));
 				String name = div.select("h3").first().text().toString()
-						.replaceAll(StopSigns, "").trim();
-				String tokens [] = segmenter.classifyToString(name).split(" +");
+						.replaceAll(SegmenterUtil.StopSigns, "").trim();
+				String tokens [] = SegmenterUtil.segmenter.classifyToString(name).split(" +");
 				for (int i = 0; i < tokens.length; i ++) {
-					if (isCityName(tokens[i]) && name.indexOf(tokens[i]) != -1) {
+					if (SegmenterUtil.isCityName(tokens[i]) && name.indexOf(tokens[i]) != -1) {
 						name = name.substring(0, name.indexOf(tokens[i]))
 								+ name.substring(name.indexOf(tokens[i]) + tokens[i].length());
 					}
@@ -123,10 +61,10 @@ public class BaiduSearch {
 		CompanyObject co = new CompanyObject ();
 		
 		try {
-			companyName = companyName.replaceAll(StopSigns, "").trim();		
+			companyName = companyName.replaceAll(SegmenterUtil.StopSigns, "").trim();		
 	//		System.out.println(companyName);
 			
-			String str [] = segmenter.classifyToString(companyName).split(" +");
+			String str [] = SegmenterUtil.segmenter.classifyToString(companyName).split(" +");
 			boolean used [] = new boolean [str.length];
 			for (int i = 0; i < used.length; i ++) {
 				if (str[i] != null && str[i].length() > 0 && !str[i].equals("")) {
@@ -146,7 +84,7 @@ public class BaiduSearch {
 			for (int i = 0; i < str.length; i ++) {
 				str[i] = str[i].trim();
 				if (str[i].length() > 1 && !used[i]) {
-					if (isCompanyType(str[i])) {
+					if (SegmenterUtil.isCompanyType(str[i])) {
 						co.type += str[i];
 						used[i] = true;
 						lastIndex = i;
@@ -169,7 +107,7 @@ public class BaiduSearch {
 			for (int i = 0; i < str.length; i ++) {
 				str[i] = str[i].trim();
 				if (str[i].length() > 1 && !used[i]) {
-					if (isCityName(str[i])) {
+					if (SegmenterUtil.isCityName(str[i])) {
 						companyName = companyName.substring(0, companyName.indexOf(str[i]))
 								+ companyName.substring(companyName.indexOf(str[i]) + str[i].length());
 						co.city += str[i];
@@ -306,8 +244,8 @@ public class BaiduSearch {
 	}
 
 	public static void main(String [] args) throws IOException {
-		loadSegmenter();
-		loadCityName();
+		SegmenterUtil.loadSegmenter();
+		SegmenterUtil.loadCityName();
 		
 //		String companyName = new String ();
 //		while(!companyName.equals("0")) {
@@ -321,8 +259,8 @@ public class BaiduSearch {
 //			System.out.println(co.type);
 //		}
 		
-		FileInput fi = new FileInput("/companys.txt");
-		FileOutput fo = new FileOutput("/company-name-baidu.txt");
+		FileInput fi = new FileInput(FilePath.RawCompanyNameFile);
+		FileOutput fo = new FileOutput(FilePath.CompanyNameBaiduFile);
 		
 		int counter = 0;
 		

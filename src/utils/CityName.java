@@ -17,9 +17,6 @@ import config.FilePath;
 
 public class CityName {
 	
-	public static final String InputCityNameFile = FilePath.DataDir + "/citys.txt";
-	public static final String OutputCityNameFile = FilePath.DataDir + "/city-name.txt";
-	public static final String EncodingOutput = "UTF-8";
 	public static ArrayList<String> cityName = new ArrayList<String> ();
 	public static HashSet<String> cityNameSet = new HashSet<String> ();
 	public static final String StopSigns = "[\\p{P}~$`^=|<>～｀＄＾＋＝｜＜＞￥× \\s|\t|\r|\n]+";
@@ -38,7 +35,7 @@ public class CityName {
 	{
 		InputStreamReader isr;
 		try {
-			isr = new InputStreamReader(new FileInputStream(InputCityNameFile));
+			isr = new InputStreamReader(new FileInputStream(FilePath.RawCityNameFile));
 			BufferedReader reader = new BufferedReader(isr);
 			String line = null;
 			try {
@@ -71,10 +68,10 @@ public class CityName {
 	public static void outputCityName() {
 		FileOutputStream t1;
 		try {
-			t1 = new FileOutputStream(new File(OutputCityNameFile));
+			t1 = new FileOutputStream(new File(FilePath.CityNameFile));
 			OutputStreamWriter t2;
 			try {
-				t2 = new OutputStreamWriter(t1, EncodingOutput);
+				t2 = new OutputStreamWriter(t1, FilePath.EncodingOutput);
 				BufferedWriter t3 = new BufferedWriter(t2);
 				try {
 					for (int i = 0; i < cityName.size(); i ++) {
