@@ -15,7 +15,7 @@ import java.util.HashSet;
 
 import config.FilePath;
 
-public class FileUtil {
+public class CityName {
 	
 	public static final String InputCityNameFile = FilePath.DataDir + "/citys.txt";
 	public static final String OutputCityNameFile = FilePath.DataDir + "/city-name.txt";
@@ -95,7 +95,7 @@ public class FileUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String [] args) {
 		loadCityName();
 		outputCityName();
