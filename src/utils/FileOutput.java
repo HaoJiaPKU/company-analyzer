@@ -8,11 +8,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-import config.FilePath;
-
 public class FileOutput {
-	
-	public String outputPath = FilePath.DataDir;
 	
 	public FileOutputStream t1;
 	public OutputStreamWriter t2;
@@ -25,9 +21,8 @@ public class FileOutput {
 	}
 	
 	public void initOutput(String outputPath) {
-		this.outputPath += outputPath;
 		try {
-			this.t1 = new FileOutputStream(new File(this.outputPath));
+			this.t1 = new FileOutputStream(new File(outputPath));
 			try {
 				this.t2 = new OutputStreamWriter(this.t1, EncodingOutput);
 				this.t3 = new BufferedWriter(this.t2);

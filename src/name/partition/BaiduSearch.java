@@ -1,13 +1,6 @@
 package name.partition;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,8 +8,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import config.FilePath;
-import edu.stanford.nlp.ie.crf.CRFClassifier;
-import edu.stanford.nlp.ling.CoreLabel;
 import objects.CompanyObject;
 import utils.FileInput;
 import utils.FileOutput;
@@ -25,7 +16,7 @@ import utils.UrlUtil;
 
 public class BaiduSearch {
 	
-	public static final int StartNumber = 23085;
+	public static final int StartNumber = 30450;
 	public static final boolean Debug = false;
 	
 	public static int calculateSearchCompanyNum(String str, String targetStr) {
@@ -280,7 +271,7 @@ public class BaiduSearch {
 					fo.t3.write(co.city + "	");
 					fo.t3.write(co.zihao + "	");
 					fo.t3.write(co.industry + "	");
-					fo.t3.write(co.type + "	");
+					fo.t3.write(co.type);
 					fo.t3.newLine();
 				}
 			} catch (IOException e) {

@@ -6,11 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import config.FilePath;
-
 public class FileInput {
-	
-	public String inputPath = FilePath.DataDir;
 	
 	public InputStreamReader isr;
 	public BufferedReader reader;
@@ -21,9 +17,8 @@ public class FileInput {
 	
 	public void initInput(String inputPath)
 	{
-		this.inputPath += inputPath;
 		try {
-			this.isr = new InputStreamReader(new FileInputStream(this.inputPath));
+			this.isr = new InputStreamReader(new FileInputStream(inputPath));
 			this.reader = new BufferedReader(this.isr);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

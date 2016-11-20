@@ -9,11 +9,17 @@ public class FilePath {
 	public static final String EncodingOutput = "UTF-8";
 	
 	public static final String RawCompanyNameFile =
-			FilePath.DataDir + "/companys.txt";
+			DataDir + "/companys.txt";
 	public static final String CompanyNameBaiduFile =
-			FilePath.DataDir + "/company-name-baidu.txt";
+			DataDir + "/company-name-baidu.txt";
 	public static final String CompanyNameTFIDFFile =
-			FilePath.DataDir + "/company-name-tfidf.txt";
+			DataDir + "/company-name-tfidf.txt";
 	public static final String CompanyNameTFIDFTokensFile =
-			FilePath.DataDir + "/company-name-tfidf-tokens.txt";
+			DataDir + "/company-name-tfidf-tokens.txt";
+	
+	public static final String OriginFile = CompanyNameBaiduFile;
+	public static final String BranchFile = CompanyNameTFIDFFile;
+	public static final String CompareFile =
+			DataDir + "/result-compare.txt";
+	
 }
