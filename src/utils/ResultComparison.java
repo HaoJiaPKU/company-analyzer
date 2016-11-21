@@ -21,32 +21,36 @@ public class ResultComparison {
 				
 				boolean originMark = false;
 				CompanyObject originCompanyObject = new CompanyObject();
-				String originLine = line.trim();
+				String originLine = line;
 				String temp [] = line.split("	");
-				if (temp.length < 4) {
-					originMark = true;
-				} else {
-					originCompanyObject = new CompanyObject(
+				for (int i = 0; i < temp.length; i ++) {
+					if (temp[i] == null || temp[i].length() == 0
+							|| temp[i].equals("")) {
+						originMark = true;
+					}
+				}
+				originCompanyObject = new CompanyObject(
 							temp[0].trim(),
 							temp[1].trim(),
 							temp[2].trim(),
 							temp[3].trim());
-				}
 				
 				line = fiBranch.reader.readLine();
 				boolean branchMark = false;
 				CompanyObject branchCompanyObject = new CompanyObject();
-				String branchLine = line.trim();
+				String branchLine = line;
 				temp = line.split("	");
-				if (temp.length < 4) {
-					branchMark = true;
-				} else {
-					branchCompanyObject = new CompanyObject(
+				for (int i = 0; i < temp.length; i ++) {
+					if (temp[i] == null || temp[i].length() == 0
+							|| temp[i].equals("")) {
+						branchMark = true;
+					}
+				}
+				branchCompanyObject = new CompanyObject(
 							temp[0].trim(),
 							temp[1].trim(),
 							temp[2].trim(),
 							temp[3].trim());
-				}
 				
 				boolean compareMark = false;
 				if (originCompanyObject.city.equals(branchCompanyObject.city)

@@ -1,10 +1,6 @@
 package utils;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -40,23 +36,17 @@ public class SegmenterUtil {
 	
 	public static void loadCityName()
 	{
-		InputStreamReader isr;
+		FileInput fi = new FileInput(FilePath.CityNameFile);
+		String line = new String();
 		try {
-			isr = new InputStreamReader(new FileInputStream(FilePath.CityNameFile));
-			BufferedReader reader = new BufferedReader(isr);
-			String line = null;
-			try {
-				while((line = reader.readLine()) != null)
-					cityName.add(line.trim());
-				reader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			while((line = fi.reader.readLine()) != null) {
+				cityName.add(line.trim());
 			}
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		fi.closeInput();
 	}
 	
 	public static boolean isCompanyType(String str) {
@@ -77,5 +67,5 @@ public class SegmenterUtil {
 		return false;
 	}
 
-	public static void main(String [] args) throws IOException {}	
+	public static void main(String [] args) {}	
 }

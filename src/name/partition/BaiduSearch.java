@@ -16,7 +16,7 @@ import utils.UrlUtil;
 
 public class BaiduSearch {
 	
-	public static final int StartNumber = 30450;
+	public static final int StartNumber = 1;
 	public static final boolean Debug = false;
 	
 	public static int calculateSearchCompanyNum(String str, String targetStr) {
