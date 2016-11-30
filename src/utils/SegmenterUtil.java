@@ -17,7 +17,7 @@ public class SegmenterUtil {
 	
 	public static void loadSegmenter()
 	{	
-		String basedir = "stanford-segmenter-2015-12-09/data";
+		String basedir = "../stanford-segmenter-2015-12-09/data";
 		Properties props = new Properties();
 		props.setProperty("sighanCorporaDict", basedir);
 		//props.setProperty("NormalizationTable", "data/norm.simp.utf8");
